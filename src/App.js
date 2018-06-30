@@ -1,9 +1,8 @@
 import React from 'react'
  import * as BooksAPI from './BooksAPI'
 import Header from './components/Header'
-import CurrentBooksList from './components/CurrentBooksList'
-import WishList from './components/WishList'
-import ReadBooksList from './components/ReadBooksList'
+import Shelf from './components/Shelf'
+
 import './App.css'
 
 class BooksApp extends React.Component {
@@ -16,17 +15,21 @@ class BooksApp extends React.Component {
      */
     showSearchPage: false,
     books: []
-    
-  }
+ }
 
 componentDidMount() {
     BooksAPI.getAll()
         .then(books => {
-            this.setState({ books })
+         this.setState({ books })
     }) 
 }
 
   render() {
+      /*variables to pass inside the components in order to use them as props*/
+      const currentBooks = this.state.books.filter(book => book.shelf.includes('currently'));
+      const wantToReadBooks = this.state.books.filter(book => book.shelf.includes('want'));
+      const readBooks = this.state.books.filter(book => book.shelf.includes('read') );
+      
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -54,9 +57,9 @@ componentDidMount() {
           <div className="list-books">
             <Header />
             <div className="list-books-content">
-                <CurrentBooksList/>
-                <WishList />
-                <ReadBooksList />
+                <Shelf books={currentBooks}/>
+                <Shelf books={wantToReadBooks} />
+                <Shelf books={readBooks}/>
             </div>
             <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
