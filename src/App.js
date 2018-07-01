@@ -24,6 +24,17 @@ componentDidMount() {
     }) 
 }
 
+updateShelf = (id, selectValue) => {
+    this.setState(prevState => ({
+        books: prevState.books.map(book => {
+            if(book.id === id) {
+                book.shelf = selectValue;
+            }
+            return book;
+        })
+    }))
+}
+
   render() {
       /*variables to pass inside the components in order to use them as props*/
       const currentBooks = this.state.books.filter(book => book.shelf.includes('currently'));
@@ -57,9 +68,9 @@ componentDidMount() {
           <div className="list-books">
             <Header />
             <div className="list-books-content">
-                <Shelf books={currentBooks}/>
-                <Shelf books={wantToReadBooks} />
-                <Shelf books={readBooks}/>
+                <Shelf updateShelf={this.updateShelf} books={currentBooks}/>
+                <Shelf updateShelf={this.updateShelf} books={wantToReadBooks} />
+                <Shelf updateShelf={this.updateShelf} books={readBooks}/>
             </div>
             <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
