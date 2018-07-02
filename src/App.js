@@ -2,7 +2,7 @@ import React from 'react'
  import * as BooksAPI from './BooksAPI'
 import Header from './components/Header'
 import Shelf from './components/Shelf'
-//import SearchContact from './components/SearchContact'
+import SearchContact from './components/SearchContact'
 
 import './App.css'
 
@@ -47,11 +47,11 @@ updateShelf = (clickedBook, selectValue) => {
   
 }
 
-//handleChangePage = () => {
-//    this.setState({
-//        showSearchPage: false
-//    })
-//}
+handleChangePage = () => {
+    this.setState({
+        showSearchPage: false
+    })
+}
 
   render() {
       /*variables to pass inside the components in order to use them as props*/
@@ -61,9 +61,9 @@ updateShelf = (clickedBook, selectValue) => {
       
     return (
       <div className="app">
-       {/* {this.state.showSearchPage ? (
+        {this.state.showSearchPage ? (
           <SearchContact changePage={this.handleChangePage}/>
-        ) : ( */}
+        ) : ( 
           <div className="list-books">
             <Header />
             <div className="list-books-content">
