@@ -5,7 +5,8 @@ class SearchContact extends Component {
     
     state = {
         query: '',
-        matchingBooks: []
+        matchingBooks: [],
+        wrongSearchTerm: false
     }
 
 handleChangeText = (e) => {
@@ -15,8 +16,16 @@ handleChangeText = (e) => {
      if(this.state.query) {
          BooksAPI.search(this.state.query)
              .then(books => {
-                this.setState({matchingBooks: books})
-             })
+             //if a wrong search term is typed
+             if(books.error) {
+                 this.setState({wrongSearchTerm: true})
+             } else {
+               this.setState({
+                    matchingBooks: books,
+                    wrongSearchTerm: false
+                })  
+             }//if there is a query and the right search term, send me books 
+            })
      } else {
         this.setState({ matchingBooks: [] }) 
      } //if there is no query, no request is made
@@ -28,6 +37,8 @@ handleChangeText = (e) => {
 
     render() {
      const {changePage} = this.props;
+     const {matchingBooks}  = this.state;
+        
         
      return(
          
@@ -48,7 +59,11 @@ handleChangeText = (e) => {
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid"></ol>
+              <ol className="books-grid">
+                
+         
+         
+              </ol>
             </div>
           </div>
         
