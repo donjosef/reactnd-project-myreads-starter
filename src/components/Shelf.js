@@ -18,7 +18,7 @@ function Shelf(props) {
                                     height: 193
                               }} className='book-cover' />
                               <div className='book-shelf-changer'>
-                                <select defaultValue={book.shelf} onChange={(e) => updateShelf(book.id, e.target.value)}>
+                                <select defaultValue={book.shelf} onChange={(e) => updateShelf(book, e.target.value)}>
                                   <option value="move" disabled>Move to...</option>
                                   <option value="currentlyReading">Currently Reading</option>
                                   <option value="wantToRead">Want to Read</option>
