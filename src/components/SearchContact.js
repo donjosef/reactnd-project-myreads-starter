@@ -5,7 +5,7 @@ class SearchContact extends Component {
     
     state = {
         query: '',
-        matchingBooks: [],
+        books: [],
         wrongSearchTerm: false
     }
 
@@ -21,13 +21,13 @@ handleChangeText = (e) => {
                  this.setState({wrongSearchTerm: true})
              } else {
                this.setState({
-                    matchingBooks: books,
+                    books,
                     wrongSearchTerm: false
                 })  
              }//if there is a query and the right search term, send me books 
             })
      } else {
-        this.setState({ matchingBooks: [] }) 
+        this.setState({ books: [] }) 
      } //if there is no query, no request is made
      
  })
@@ -37,7 +37,8 @@ handleChangeText = (e) => {
 
     render() {
      const {changePage} = this.props;
-     const {matchingBooks}  = this.state;
+     const {books, wrongSearchTerm}  = this.state;
+        
         
         
      return(
@@ -59,11 +60,39 @@ handleChangeText = (e) => {
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid">
-                
-         
-         
-              </ol>
+            {wrongSearchTerm && (
+                <p style={{color: 'red'}}><strong>Unfound search term. Try again</strong></p>
+            )}
+            {!wrongSearchTerm && (
+                <ol className="books-grid">
+                {books.map(book => (
+                     <li key={book.id}>
+                          <div className='book'>
+                            <div className='book-top'>
+                              <div style={{
+                                    backgroundImage: `url(${book.imageLinks ? book.imageLinks.thumbnail : ''})`,
+                                    width: 128,
+                                    height: 193
+                              }} className='book-cover' />
+                              <div className='book-shelf-changer'>
+                                <select>
+                                  <option value="move" disabled>Move to...</option>
+                                  <option value="currentlyReading">Currently Reading</option>
+                                  <option value="wantToRead">Want to Read</option>
+                                  <option value="read">Read</option>
+                                  <option value="none">None</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className="book-title">{book.title}</div>
+                            <div className="book-authors">{book.authors ? book.authors[0] : 'Unknown Author'}</div>
+                          </div>
+                        </li>
+                ))}
+                </ol>    
+     
+             )}
+              
             </div>
           </div>
         
