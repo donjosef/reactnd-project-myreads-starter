@@ -3,6 +3,9 @@ import React from 'react'
 import Header from './components/Header'
 import Shelf from './components/Shelf'
 import SearchContact from './components/SearchContact'
+import { Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
+
 
 import './App.css'
 
@@ -14,7 +17,6 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false,
     books: []
  }
 
@@ -47,11 +49,7 @@ updateShelf = (clickedBook, selectValue) => {
   
 }
 
-handleChangePage = () => {
-    this.setState({
-        showSearchPage: false
-    })
-}
+
 
   render() {
       /*variables to pass inside the components in order to use them as props*/
@@ -61,10 +59,9 @@ handleChangePage = () => {
       
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <SearchContact changePage={this.handleChangePage}/>
-        ) : ( 
-          <div className="list-books">
+        <Route path='/search' render={() => <SearchContact /> }/>
+        <Route exact path='/' render={() => (
+           <div className="list-books">
             <Header />
             <div className="list-books-content">
                 <Shelf updateShelf={this.updateShelf} books={currentBooks}/>
@@ -72,10 +69,10 @@ handleChangePage = () => {
                 <Shelf updateShelf={this.updateShelf} books={readBooks}/>
             </div>
             <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+              <Link to='/search'>Add a book</Link>
             </div>
-          </div>
-        )}
+          </div>                
+        )} />
       </div> 
     )
   }
