@@ -26,9 +26,7 @@ handleChangeText = (e) => {
                 })  
              }//if there is a query and the right search term, send me books 
             })
-     } else {
-        this.setState({ books: [] }) 
-     } //if there is no query, no request is made
+     } 
      
  })
 }
@@ -37,7 +35,7 @@ handleChangeText = (e) => {
 
     render() {
      const {changePage} = this.props;
-     const {books, wrongSearchTerm}  = this.state;
+     const {query, books, wrongSearchTerm}  = this.state;
         
         
         
@@ -63,7 +61,7 @@ handleChangeText = (e) => {
             {wrongSearchTerm && (
                 <p style={{color: 'red'}}><strong>Unfound search term. Try again</strong></p>
             )}
-            {!wrongSearchTerm && (
+            {!wrongSearchTerm && query && (
                 <ol className="books-grid">
                 {books.map(book => (
                      <li key={book.id}>
