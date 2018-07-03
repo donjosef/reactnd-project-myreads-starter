@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import * as BooksAPI from '../BooksAPI'
+import { Link } from 'react-router-dom'
 
 class SearchContact extends Component {
     
@@ -34,7 +35,7 @@ handleChangeText = (e) => {
 
 
     render() {
-     const {changePage} = this.props;
+     
      const {query, books, wrongSearchTerm}  = this.state;
         
         
@@ -43,7 +44,7 @@ handleChangeText = (e) => {
          
         <div className="search-books">
             <div className="search-books-bar">
-              <a className="close-search" onClick={changePage}>Close</a>
+              <Link to='/' className="close-search" >Close</Link>
               <div className="search-books-input-wrapper">
                 {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
