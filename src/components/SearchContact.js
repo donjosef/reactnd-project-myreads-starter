@@ -36,8 +36,9 @@ handleChangeText = (e) => {
 
     render() {
      
+     const {newBook} = this.props;
      const {query, books, wrongSearchTerm}  = this.state;
-        
+    
         
         
      return(
@@ -46,14 +47,6 @@ handleChangeText = (e) => {
             <div className="search-books-bar">
               <Link to='/' className="close-search" >Close</Link>
               <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
                 <input type="text" value={this.state.query} onChange={this.handleChangeText} placeholder="Search by title or author"/>
 
               </div>
@@ -74,7 +67,7 @@ handleChangeText = (e) => {
                                     height: 193
                               }} className='book-cover' />
                               <div className='book-shelf-changer'>
-                                <select>
+                                <select onChange={(e) => newBook(book.id, e.target.value)}>
                                   <option value="move" disabled>Move to...</option>
                                   <option value="currentlyReading">Currently Reading</option>
                                   <option value="wantToRead">Want to Read</option>
