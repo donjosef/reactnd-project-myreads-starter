@@ -20,7 +20,7 @@ class BooksApp extends React.Component {
     books: []
  }
 
-componentDidMount() {
+componentWillMount() {
     BooksAPI.getAll()
         .then(books => {
          this.setState({ books })
@@ -50,6 +50,16 @@ updateShelf = (clickedBook, selectValue) => {
 }
 
 
+getNewBook = (id, shelf) => {
+    BooksAPI.get(id).then(book => {
+        book.shelf = shelf;
+        this.setState(prevState => ({
+            books: prevState.books.concat(book)
+        }))
+    })
+}
+
+
 
   render() {
       /*variables to pass inside the components in order to use them as props*/
@@ -59,7 +69,11 @@ updateShelf = (clickedBook, selectValue) => {
       
     return (
       <div className="app">
-        <Route path='/search' render={() => <SearchContact /> }/>
+        <Route path='/search' render={({ history }) => <SearchContact newBook={(id, shelf) => {
+                                                            this.getNewBook(id, shelf);
+                                                            history.push('/')
+                                                        }}/> 
+        }/>
         <Route exact path='/' render={() => (
            <div className="list-books">
             <Header />
