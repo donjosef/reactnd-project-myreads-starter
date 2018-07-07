@@ -51,16 +51,15 @@ updateShelf = (clickedBook, selectValue) => {
 
 
 getNewBook = (id, shelf) => {
-    BooksAPI.get(id).then(book => {
-        book.shelf = shelf;
-        this.setState(prevState => ({
+    
+      BooksAPI.get(id).then(book => {
+         book.shelf = shelf;
+         this.setState(prevState => ({
             books: prevState.books.concat(book)
-        }))
-    })
+         }))
+     }) 
 }
-
-
-
+        
   render() {
       /*variables to pass inside the components in order to use them as props*/
       const currentBooks = this.state.books.filter(book => book.shelf.includes('currently'));
@@ -69,10 +68,7 @@ getNewBook = (id, shelf) => {
       
     return (
       <div className="app">
-        <Route path='/search' render={({ history }) => <SearchContact newBook={(id, shelf) => {
-                                                            this.getNewBook(id, shelf);
-                                                            history.push('/')
-                                                        }}/> 
+        <Route path='/search' render={() => <SearchContact booksOnShelves={this.state.books} newBook={this.getNewBook} /> 
         }/>
         <Route exact path='/' render={() => (
            <div className="list-books">
