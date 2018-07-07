@@ -21,14 +21,13 @@ handleChangeText = (e) => {
              if(books.error) {
                  this.setState({wrongSearchTerm: true})
              } else {
-               this.setState({
+                 this.setState({
                     books,
                     wrongSearchTerm: false
-                })  
-             }//if there is a query and the right search term, send me books 
-            })
-     } 
-     
+                 })  
+              }
+            })//if there is a query and the right search term, send me book
+     }
  })
 }
 
@@ -36,8 +35,18 @@ handleChangeText = (e) => {
 
     render() {
      
-     const {newBook} = this.props;
+     const {newBook, booksOnShelves} = this.props;
      const {query, books, wrongSearchTerm}  = this.state;
+        
+     for(let bookOnShelf of booksOnShelves) {
+         for(let book of books) {
+           if(bookOnShelf.title === book.title)  { //the book is  on a shelf
+               book.shelf = bookOnShelf.shelf;
+           } else {
+               book.shelf = 'none'
+           } //the book is not on a shelf
+         }
+    }
     
         
         
@@ -67,7 +76,7 @@ handleChangeText = (e) => {
                                     height: 193
                               }} className='book-cover' />
                               <div className='book-shelf-changer'>
-                                <select onChange={(e) => newBook(book.id, e.target.value)}>
+                                <select defaultValue={book.shelf} onChange={(e) => newBook(book.id, e.target.value)}>
                                   <option value="move" disabled>Move to...</option>
                                   <option value="currentlyReading">Currently Reading</option>
                                   <option value="wantToRead">Want to Read</option>
