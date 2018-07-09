@@ -20,8 +20,8 @@ handleChangeText = (e) => {
              //if a wrong search term is typed
              if(books.error) {
                  this.setState({wrongSearchTerm: true})
-             } else {
-                 this.setState({
+             } else {                
+                this.setState({
                     books,
                     wrongSearchTerm: false
                  })  
@@ -36,18 +36,20 @@ handleChangeText = (e) => {
     render() {
      
      const {newBook, booksOnShelves} = this.props;
-     const {query, books, wrongSearchTerm}  = this.state;
-        
-     for(let bookOnShelf of booksOnShelves) {
-         for(let book of books) {
-           if(bookOnShelf.title === book.title)  { //the book is  on a shelf
-               book.shelf = bookOnShelf.shelf;
-           } else {
-               book.shelf = 'none'
-           } //the book is not on a shelf
-         }
+     const {query, books, wrongSearchTerm}  = this.state;  
+       
+    /*Check if books returned from search, are already on some shelf*/
+     for(let book of books) {
+         for(let bookOnShelf of booksOnShelves) {
+             if(book.title === bookOnShelf.title)  { //the book is  on a shelf
+                book.shelf = bookOnShelf.shelf;
+            } else {
+                if(book.shelf === undefined) {
+                   book.shelf = 'none' 
+                 } //only if undefined, avoiding overwrite the 'none' of last iteration
+              } //the book is not on a shelf
+            }
     }
-    
         
         
      return(
