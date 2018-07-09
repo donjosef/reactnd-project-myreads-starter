@@ -23,11 +23,16 @@ handleChangeText = (e) => {
                      books: books.items,
                      wrongSearchTerm: true
                  })
-             } else {                
-                this.setState({
-                    books,
-                    wrongSearchTerm: false
-                 })  
+             } else {
+                 const results = books.map((book) => {
+                    const existingBook = this.props.booksOnShelves.find((b) => b.id === book.id) //for every book of searched books, find me the object(inside booksOnShelves) whose id is equal to id of book. It means find me the book that is already on one shelf. ExistingBooks will be undefined if no book is found, or the actual book.
+                    book.shelf = !!existingBook ? existingBook.shelf : 'none' //set the shelf property. Double negation (!!) with undefined means false. With true means true. So, if undefined set it to none. If one object is found, set it to existing.shelf,
+                    return book
+                 });
+                 this.setState({ 
+                     books: results,
+                     wrongSearchTerm: false
+                 })
               }
             })//if there is a query and the right search term, send me book
      }
@@ -39,21 +44,7 @@ handleChangeText = (e) => {
     render() {
      
      const {newBook, booksOnShelves} = this.props;
-     const {query, books, wrongSearchTerm}  = this.state;  
-       
-    /*Check if books returned from search, are already on some shelf*/
-     for(let book of books) {
-         for(let bookOnShelf of booksOnShelves) {
-             if(book.title === bookOnShelf.title)  { //the book is  on a shelf
-                book.shelf = bookOnShelf.shelf;
-            } else {
-                if(book.shelf === undefined) {
-                   book.shelf = 'none' 
-                 } //only if undefined, avoiding overwrite the 'none' of last iteration
-              } //the book is not on a shelf
-            }
-    }
-        
+     const {query, books, wrongSearchTerm}  = this.state;          
         
      return(
          
