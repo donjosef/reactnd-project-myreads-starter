@@ -19,7 +19,10 @@ handleChangeText = (e) => {
              .then(books => {
              //if a wrong search term is typed
              if(books.error) {
-                 this.setState({wrongSearchTerm: true})
+                 this.setState({
+                     books: books.items,
+                     wrongSearchTerm: true
+                 })
              } else {                
                 this.setState({
                     books,
