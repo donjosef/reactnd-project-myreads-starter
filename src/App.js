@@ -29,14 +29,12 @@ componentDidMount() {
 
 updateShelf = (clickedBook, selectValue) => {
     if(selectValue === 'none') {
-      BooksAPI.update(clickedBook, selectValue).then(res => {
         this.setState(prevState => ({
            books: prevState.books.filter(book => book.id !== clickedBook.id) 
-        }))
-      })
+        }));
+        BooksAPI.update(clickedBook, selectValue)
     } //When the value is none the book get removed from the server. Remove the item from the array books to change the view too
    
-    BooksAPI.update(clickedBook, selectValue).then(res => {
         this.setState(prevState => ({
                books: prevState.books.map(book => {
                    if(book.id === clickedBook.id) {
@@ -44,9 +42,8 @@ updateShelf = (clickedBook, selectValue) => {
                    }
                    return book;
                }) //change the shelf of the clicked book
-        }))
-    })
-  
+        }));
+        BooksAPI.update(clickedBook, selectValue)
 }
 
 
